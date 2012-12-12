@@ -1,7 +1,7 @@
 ueb-thesis-latex
 ================
 
-Unofficial (yet useful) LaTeX templates for writing PhD thesis according to ueb.eu requirements.
+Unofficial (yet useful) LaTeX templates for writing PhD thesis according to ueb.eu requirements (by the end of 2012).
 
 This project aims at providing code which is both *simple* (as in "It took me 5 minutes to make it work!") and *portable* (as in "I use XeTeX and Memoir to write my thesis, and generating the right cover simply consisted in 2 or 3 tweaks.").
 
