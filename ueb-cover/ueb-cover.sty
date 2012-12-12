@@ -1,0 +1,234 @@
+
+% LaTeX 2e
+% encoding: UTF8
+% use pdflatex to build
+
+% version 0.1 JCH 2012-12-12 (adapted from ADOC's template)
+
+% Dependencies
+% =============================================================================
+% TODO use RequirePackage
+\usepackage{textpos}
+\usepackage{lmodern} % On devrait pouvoir utiliser d'autres fontes pour le sans serif, mais autant passer à XeLaTeX dans ce cas…
+
+% Autre éléments requis, à ajouter / adapter dans le prélude
+% \usepackage[frenchb]{babel}
+% \usepackage[utf8x]{inputenc}
+% \usepackage[T1]{fontenc}
+% \usepackage{pslatex}
+% \usepackage{graphicx}
+% \usepackage{color}
+% 
+% nag Latex package warns the user about the usage of old packages or commands (for example, using \it, \tt, etc.). nag % warns about the things mentioned in l2tabu (Obsolete packages and commands).
+% \usepackage{nag}
+% % fixltx2e package fixes some 'mistakes' in Latex.
+% \usepackage{fixltx2e}
+
+
+% Fragments à reprendre dans un fichier "couverture.tex"
+% =============================================================================
+%% Utiliser l'un des deux :
+% \couvSoutenue % \couvAsoutenir
+%% Compléter :
+% \couvTitre{à compléter}
+% \couvDateSoutenance{à compléter}
+% \couvLieuSoutenance{à compléter}
+% \couvMention{à compléter}
+% \couvAuteur{à compléter}{à compléter}
+% \couvLabo{à compléter}
+% \couvLaboEtendu{à compléter}
+% \couvComposanteUniversitaire{à compléter}
+% \couvEcoleDoctorale{à compléter}
+% \couvNoOrdre{à compléter}
+
+% \begin{couvertureUEB}{chemin/vers/image-fond}{Etablissement}{GradeObtenu}
+% 	% autant de fois que nécessaire, dans l'ordre :
+% 	\membreJury{Prenom}{Nom}{Qualité}{FonctionsJury}
+% \end{couvertureUEB}
+
+
+% Définition des commandes de configuration 
+% (à utiliser pour compléter la couverture)
+% =============================================================================
+
+% La thèse a-t-elle été soutenue ?
+\newcommand{\couvSoutenue}{% 
+	\renewcommand{\COUVSOUTENUE}{Th\`ese soutenue}%
+}
+\newcommand{\couvAsoutenir}{% 
+	\renewcommand{\COUVSOUTENUE}{Soutenance pr\'evue}%
+}
+
+% Titre de la thèse
+\newcommand{\couvTitre}[1]{%
+\renewcommand{\COUVTITRE}{{\Huge\textbf{#1}}}% \baselineskip=25pt
+}
+
+% Date de soutenance
+\newcommand{\couvDateSoutenance}[1]{%
+\renewcommand{\COUVDATE}{#1}%
+}
+
+% Lieu de soutenance
+\newcommand{\couvLieuSoutenance}[1]{%
+\renewcommand{\COUVLIEU}{#1}%
+}
+
+% Mention : informatique, électronique, traitement du signal...
+\newcommand{\couvMention}[1]{%
+\renewcommand{\COUVMENTION}{#1}%
+}
+
+% Prenom Nom de l'auteur
+\newcommand{\couvAuteur}[2]{%
+\renewcommand{\COUVAUTEURPRENOM}{#1}%
+\renewcommand{\COUVAUTEURNOM}{\textsc{#2}}%
+}
+
+% Affectations diverses (équipe, labo, composante universitaire, etc.)
+\newcommand{\couvLabo}[1]{%
+\renewcommand{\COUVLABO}{#1}%
+}
+\newcommand{\couvLaboEtendu}[1]{%
+\renewcommand{\COUVLABOEXT}{#1}%
+}
+\newcommand{\couvComposanteUniversitaire}[1]{%
+\renewcommand{\COUVCOMPU}{#1}%
+}
+
+% Ecole Doctorale
+\newcommand{\couvEcoleDoctorale}[1]{%
+\renewcommand{\COUVECOLEDOCTORALE}{#1}%
+}
+
+% Numero Ordre
+\newcommand{\couvNoOrdre}[1]{%
+\renewcommand{\COUVNOORDRE}{#1}%
+}
+
+
+% Définition des commandes internes
+% =============================================================================
+
+\newcommand{\couvTODOConfig}[2]{%
+\color{red}\textbf{\emph{#1}: utiliser \texttt{#2} pour configurer cet \'el\'ement.}%
+}
+
+% Fragments de texte
+\newcommand{\COUVSOUTENUE}{\couvTODOConfig{état thèse}{\couvSoutenue \couvAsoutenir}}
+\newcommand{\COUVTITRE}{\couvTODOConfig{titre}{\couvTitre}}
+\newcommand{\COUVDATE}{\couvTODOConfig{date soutenance}{\couvDateSoutenance}}
+\newcommand{\COUVLIEU}{\couvTODOConfig{lieu soutenance}{\couvLieuSoutenance}}
+\newcommand{\COUVMENTION}{\couvTODOConfig{mention}{\couvMention}}
+\newcommand{\COUVAUTEURPRENOM}{\couvTODOConfig{prénom auteur}{\couvAuteur}}
+\newcommand{\COUVAUTEURNOM}{\couvTODOConfig{nom auteur}{\couvAuteur}}
+\newcommand{\COUVLABO}{\couvTODOConfig{labo. (court)}{\couvLabo}}
+\newcommand{\COUVLABOEXT}{\couvTODOConfig{labo. (long)}{\couvLaboEtendu}}
+\newcommand{\COUVCOMPU}{\couvTODOConfig{composante univ.}{\couvComposanteUniversitaire}}
+\newcommand{\COUVECOLEDOCTORALE}{\couvTODOConfig{ED}{\couvEcoleDoctorale}}
+\newcommand{\COUVNOORDRE}{\couvTODOConfig{no d'ordre}{\couvNoOrdre}}
+
+% Mise en forme
+\newcommand{\TailleJury}{\large{}}
+\newcommand{\authorspacing}{ / }
+
+
+% \membreJury{Prenom}{Nom}{Qualité}{FonctionsJury}
+% Ex: {Jean-Claude}{Dusse}{Professeur à l'université de Vannes}{Président, rapporteur}
+\newcommand{\membreJury}[4]{%
+{\vspace{-1mm}\TailleJury\bfseries #1 \textsc{#2}\newline}%
+{\vspace{-1mm}\small #3}\authorspacing\mbox{\textit{\small #4}}\vspace{2mm}\\%
+}
+
+
+
+% Définition de l'environnement pour les couvertures UEB
+% =============================================================================
+
+%% Usage :
+% \begin{couvertureUEB}{chemin/vers/image-fond}{Etablissement}{GradeObtenu}
+% 	% autant de fois que nécessaire, dans l'ordre :
+% 	\membreJury{Prenom}{Nom}{Qualité}{FonctionsJury}
+% \end{couvertureUEB}
+
+% TODO faire 2 paramètres pour les offsets de la couverture ?
+% TODO indique format attendu de l'image / ou mise en forme qui sera appliquée (donc ratio et résolution à utiliser)
+% TODO faire macros pour style des éléments si nécessaire
+
+\newenvironment{couvertureUEB}[3]%
+{
+\sffamily
+% Grand logo fond haut page
+\hspace{-3.05cm} % <--- Changer l'offset en ordonnée ici...
+\begin{minipage}{21cm}
+\vspace{-2.4cm}  % <--- ...et en abscisse là
+\includegraphics[width=21.05cm]{#1}
+\end{minipage}
+
+% Texte blanc sur fond bleu
+\vspace{-3cm}
+\begin{minipage}{16cm}
+\hspace{-2cm}\begin{tabular}{rl}
+\begin{minipage}{9cm}
+\begin{flushright}
+{\color{white}\Large\bfseries TH\`ESE #2}
+
+\vspace{-0.1cm}{\color{white}\textit{sous le sceau de l'Universit\'e Europ\'eenne de Bretagne}}
+
+\vspace{0.1cm}{\color{white}\normalsize{}pour obtenir le grade de}
+
+\vspace{0.1cm}{\color{white}\bfseries \MakeUppercase{#3}}
+
+{\color{white}\textit{Spécialité~: \COUVMENTION}}
+\end{flushright}
+\end{minipage}
+
+&
+\begin{minipage}{9cm}
+
+{\color{white}\normalsize{}pr\'esent\'ee par}
+\vspace{0.1cm}
+
+{\color{white}\huge\bfseries\COUVAUTEURPRENOM~\COUVAUTEURNOM}
+\vspace{0.1cm}
+
+{\color{white}\bfseries\'ECOLE DOCTORALE~: \COUVECOLEDOCTORALE}
+
+{\color{white}\bfseries LABORATOIRE~: \COUVLABO}
+\end{minipage}
+\end{tabular}
+\end{minipage}
+
+\vspace{0.2cm}\hspace{-2.1cm}
+\begin{textblock}{18}(-1.88,0)
+	\begin{tabular}{p{9.5cm}p{10cm}}
+	\begin{minipage}[t]{9.5cm}
+	\vspace{0.5cm}
+	\begin{flushright}
+	\vspace{-2mm}\COUVTITRE
+	\end{flushright}
+	\end{minipage}
+	&
+	\begin{minipage}[t]{10cm}
+	\vspace{0.5cm}
+	{\bfseries  \COUVSOUTENUE~le~\COUVDATE\newline}
+	{\small devant le jury compos\'e de :\vspace{2mm}\\}
+}%
+{%
+	\end{minipage}
+	\end{tabular}
+\end{textblock}
+}
+
+% \textnormal{}
+
+
+
+% \newcommand{\alignquatriemedecouv}{
+% \newpage\thispagestyle{empty}~
+% \ifodd\value{page}
+% \newpage\thispagestyle{empty}
+% \else
+% \newpage\thispagestyle{empty}~\newpage\thispagestyle{empty}
+% \fi
+% }
