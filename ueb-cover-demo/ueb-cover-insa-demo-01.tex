@@ -1,7 +1,21 @@
 
 % To copy and paste in a minimal document
-% TODO provide minimal document definition
 
+\documentclass[a4paper,11pt,openright]{memoir}
+
+\usepackage[english,frenchb]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{pslatex}
+\usepackage[final]{graphicx}
+\usepackage{color}
+\usepackage{nag}
+\usepackage{fixltx2e}
+
+\begin{document}
+
+% Couverture - première
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Configuration
 % ==============================================================================
@@ -16,13 +30,12 @@
 \couvLaboEtendu{Institut de Recherche en Informatique et Système Aléatoires}
 % \couvComposanteUniversitaire{XXXXX}
 \couvEcoleDoctorale{MATISSE}
-% \couvNoOrdre{XXXXX}
 
 
 % Couverture
 % ==============================================================================
 
-\begin{couvertureUEB}{background-insa}{INSA Rennes}{Docteur de l'INSA de Rennes}
+\begin{couvertureUEB}{background-insa-front}{INSA Rennes}{Docteur de l'INSA de Rennes}
 \membreJury{Prénom}{Nom}{Professeur à l'université de La Rochelle}{Président et rapporteur}
 \membreJury{Prénom}{Nom}{\emph{Associate Professor} à l'Univ. Autònoma de Barcelona}{Rapporteur} % Espagne
 \membreJury{Prénom}{Nom}{Professeur à l'université de Fribourg}{Examinateur} % (Suisse)
@@ -38,6 +51,32 @@
 % \addtocounter{page}{-1}
 \thispagestyle{empty}
 \cleartorecto
-~
-\thispagestyle{empty}
-\cleartorecto
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Le contenu du mémoire est ici.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+% Couverture - quatrième
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Mise en forme complémentaire, on passe une page et on se met sur le verso
+% ==============================================================================
+\alignquatriemedecouv
+
+% Configuration
+% ==============================================================================
+\couvResumeFR{Texte du résumé français.}
+\couvResumeEN{Text of the English abstract.}
+\couvNoOrdre{Daa-nn}
+
+
+% Couverture
+% ==============================================================================
+\couvertureUEBquatrieme{background-insa-back}
+
+
+\end{document}
+

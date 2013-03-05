@@ -1,15 +1,13 @@
 
 % LaTeX 2e
 % encoding: UTF8
-% use pdflatex to build
 
-% version 0.1 JCH 2012-12-12 (adapted from ADOC's template)
+% version 0.2 JCH 2013-03-05 (simplification avec utilisation exclusive de textpos pour le positionnement)
 
-% Dependencies
+% Dépendances
 % =============================================================================
-% TODO use RequirePackage
-\usepackage{textpos}
-% \usepackage{lmodern} % On devrait pouvoir utiliser d'autres fontes pour le sans serif, mais autant passer à XeLaTeX dans ce cas…
+\usepackage[absolute]{textpos}
+%\textblockorigin{0mm}{0mm}
 
 % Autre éléments requis, à ajouter / adapter dans le prélude
 % \usepackage[frenchb]{babel}
@@ -25,7 +23,7 @@
 % \usepackage{fixltx2e}
 
 
-% Fragments à reprendre dans un fichier "couverture.tex"
+% Fragments à reprendre dans un fichier "couverture-premiere.tex"
 % =============================================================================
 %% Utiliser l'un des deux :
 % \couvSoutenue % \couvAsoutenir
@@ -39,7 +37,6 @@
 % \couvLaboEtendu{à compléter}
 % \couvComposanteUniversitaire{à compléter}
 % \couvEcoleDoctorale{à compléter}
-% \couvNoOrdre{à compléter}
 
 % \begin{couvertureUEB}{chemin/vers/image-fond}{Etablissement}{GradeObtenu}
 % 	% autant de fois que nécessaire, dans l'ordre :
@@ -47,10 +44,21 @@
 % \end{couvertureUEB}
 
 
+
+% Fragments à reprendre dans un fichier "couverture-quatrieme.tex"
+% =============================================================================
+% \couvResumeFR{à compléter} % Possible de faire des \input
+% \couvResumeEN{à compléter}
+% \couvNoOrdre{à compléter}
+
+% \alignquatriemedecouv
+% \couvertureUEBquatrieme{chemin/vers/image-fond}
+
 % Définition des commandes de configuration 
-% (à utiliser pour compléter la couverture)
 % =============================================================================
 
+% Pour compléter la première de couverture
+% -----------------------------------------------------------------------------
 % La thèse a-t-elle été soutenue ?
 \newcommand{\couvSoutenue}{% 
 	\renewcommand{\COUVSOUTENUE}{Th\`ese soutenue}%
@@ -101,6 +109,20 @@
 \renewcommand{\COUVECOLEDOCTORALE}{#1}%
 }
 
+
+% Pour compléter la quatrième de couverture
+% -----------------------------------------------------------------------------
+
+% Résumé en français
+\newcommand{\couvResumeFR}[1]{%
+\renewcommand{\COUVRESUMEFR}{#1}%
+}
+
+% Résumé en anglais
+\newcommand{\couvResumeEN}[1]{%
+\renewcommand{\COUVRESUMEEN}{#1}%
+}
+
 % Numero Ordre
 \newcommand{\couvNoOrdre}[1]{%
 \renewcommand{\COUVNOORDRE}{#1}%
@@ -111,9 +133,11 @@
 % =============================================================================
 
 \newcommand{\couvTODOConfig}[2]{%
-\color{red}\textbf{\emph{#1}: utiliser \texttt{#2} pour configurer cet \'el\'ement.}%
+\color{red}\textbf{\emph{#1}: utiliser \og{} #2 \fg{} pour configurer cet \'el\'ement.}%
 }
 
+% Pour la première de couverture
+% -----------------------------------------------------------------------------
 % Fragments de texte
 \newcommand{\COUVSOUTENUE}{\couvTODOConfig{état thèse}{\couvSoutenue \couvAsoutenir}}
 \newcommand{\COUVTITRE}{\couvTODOConfig{titre}{\couvTitre}}
@@ -126,7 +150,6 @@
 \newcommand{\COUVLABOEXT}{\couvTODOConfig{labo. (long)}{\couvLaboEtendu}}
 \newcommand{\COUVCOMPU}{\couvTODOConfig{composante univ.}{\couvComposanteUniversitaire}}
 \newcommand{\COUVECOLEDOCTORALE}{\couvTODOConfig{ED}{\couvEcoleDoctorale}}
-\newcommand{\COUVNOORDRE}{\couvTODOConfig{no d'ordre}{\couvNoOrdre}}
 
 % Mise en forme
 \newcommand{\TailleJury}{\large{}}
@@ -141,6 +164,25 @@
 }
 
 
+% Pour la quatrième de couverture
+% -----------------------------------------------------------------------------
+
+% Fragments de texte
+\newcommand{\COUVRESUMEFR}{\couvTODOConfig{Résumé en français}{\couvResumeFR}}
+\newcommand{\COUVRESUMEEN}{\couvTODOConfig{Résumé en anglais}{\couvResumeEN}}
+\newcommand{\COUVNOORDRE}{\couvTODOConfig{no d'ordre}{\couvNoOrdre}}
+
+% Mise en forme
+\newcommand{\alignquatriemedecouv}{%
+\pagestyle{empty}
+~
+\cleartorecto
+~
+\cleartorecto
+~
+\cleartoverso
+}
+
 
 % Définition de l'environnement pour les couvertures UEB
 % =============================================================================
@@ -151,24 +193,31 @@
 % 	\membreJury{Prenom}{Nom}{Qualité}{FonctionsJury}
 % \end{couvertureUEB}
 
-% TODO faire 2 paramètres pour les offsets de la couverture ?
-% TODO indique format attendu de l'image / ou mise en forme qui sera appliquée (donc ratio et résolution à utiliser)
-% TODO faire macros pour style des éléments si nécessaire
+% TODO : déclarer des dimensions, autoriser leur paramétrage.
+
+% Pour modifier la mise en forme, on peut modifier les dimensions des macros suivantes :
+% - \vspace{espaceVertical}
+% - \minipage{largeur}
+% - \begin{textblock*}{largeur}(PositionAbsolueHorizontale,PositionAbsolueVerticale)
 
 \newenvironment{couvertureUEB}[3]%
 {
+\setlength{\parindent}{0pt}
+\mbox{}
 \sffamily
+
 % Grand logo fond haut page
-\hspace{-3.05cm} % <--- Changer l'offset en ordonnée ici...
-\begin{minipage}{21cm}
-\vspace{-2.4cm}  % <--- ...et en abscisse là
-\includegraphics[width=21.05cm]{#1}
-\end{minipage}
+% -----------------------------------------------------------------------------
+
+\begin{textblock*}{21cm}(0cm,0cm)
+\includegraphics[width=21cm]{#1}
+\end{textblock*}
 
 % Texte blanc sur fond bleu
-\vspace{-3cm}
-\begin{minipage}{16cm}
-\hspace{-2cm}\begin{tabular}{rl}
+% -----------------------------------------------------------------------------
+\begin{textblock*}{21cm}(0cm,17.7cm)
+\centering
+\begin{tabular}{rl}
 \begin{minipage}{9cm}
 \begin{flushright}
 {\color{white}\Large\bfseries TH\`ESE #2}
@@ -197,20 +246,23 @@
 {\color{white}\bfseries LABORATOIRE~: \COUVLABO}
 \end{minipage}
 \end{tabular}
-\end{minipage}
+\end{textblock*}
 
-\vspace{0.2cm}\hspace{-2.1cm}
-\begin{textblock}{18}(-1.88,0)
-	\begin{tabular}{p{9.5cm}p{10cm}}
-	\begin{minipage}[t]{9.5cm}
+% Texte noir sur fond blanc
+% -----------------------------------------------------------------------------
+%\vspace{0.2cm}\hspace{-2.1cm}
+\begin{textblock*}{21cm}(0cm,20.3cm)
+	\centering
+	\begin{tabular}{rl}
+	\begin{minipage}[t]{9cm}
 	\vspace{0.5cm}
-	\begin{flushright}
 	\baselineskip=25pt
+	\begin{flushright}
 	\vspace{-2mm}\COUVTITRE
 	\end{flushright}
 	\end{minipage}
 	&
-	\begin{minipage}[t]{10cm}
+	\begin{minipage}[t]{9cm}
 	\vspace{0.5cm}
 	{\bfseries  \COUVSOUTENUE~le~\COUVDATE\newline}
 	{\small devant le jury compos\'e de :\vspace{2mm}\\}
@@ -218,18 +270,57 @@
 {%
 	\end{minipage}
 	\end{tabular}
-\end{textblock}
+\end{textblock*}
 }
 
-% \textnormal{}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Quatrième de couverture
+%%%%%
+
+
+\newcommand{\couvertureUEBquatrieme}[1]%
+{
+{\sffamily
+\setlength{\parindent}{0pt}
+% Résumés
+% -----------------------------------------------------------------------------
+\begin{textblock*}{21cm}(0cm,1cm)
+\centering
+\begin{tabular}{p{9cm} p{9cm}}
+\begin{center}
+\LARGE{\textbf{Résumé}}
+\end{center}
+% \vspace{2em}
+&
+\begin{center}
+\LARGE{\textbf{Abstract}}
+\end{center}
+% \vspace{2em}
+
+\\
+
+\selectlanguage{french}\COUVRESUMEFR
+& \selectlanguage{english}\COUVRESUMEEN\selectlanguage{french}
+
+\end{tabular}
+\end{textblock*}
+
+
+% Bannière bas page
+% -----------------------------------------------------------------------------
+\begin{textblock*}{21cm}(0cm,29.7cm-3.28cm)
+\includegraphics[width=21cm]{#1}
+\end{textblock*}
+
+% Texte numéro d'ordre
+% -----------------------------------------------------------------------------
+\begin{textblock*}{10cm}(5.35cm,29.7cm-2.1cm)
+{\color{white}\No{} d'ordre~: \textbf{\COUVNOORDRE}}
+\end{textblock*}
+}
+}
 
 
 
-% \newcommand{\alignquatriemedecouv}{
-% \newpage\thispagestyle{empty}~
-% \ifodd\value{page}
-% \newpage\thispagestyle{empty}
-% \else
-% \newpage\thispagestyle{empty}~\newpage\thispagestyle{empty}
-% \fi
-% }
