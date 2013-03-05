@@ -6,7 +6,7 @@ Unofficial (yet useful) LaTeX templates for writing PhD thesis according to ueb.
 This project aims at providing code which is both *simple* (as in "It took me 5 minutes to make it work!") and *portable* (as in "I use XeTeX and Memoir to write my thesis, and generating the right cover simply consisted in 2 or 3 tweaks.").
 
 We plan to reach this goal by:
-* providing only vital files to fulfill administration requirements;
+* providing only vital files to fulfill administrative requirements;
 * removing any complicated stuff contained in old templates;
 * writing a short and clear documentation;
 * making the things easily customizable.
